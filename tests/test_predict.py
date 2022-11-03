@@ -4,9 +4,9 @@ import pytest
 import torch as th
 
 from stable_baselines3 import A2C, DQN, PPO, SAC, TD3
-from stable_baselines3_fyp.common.envs import IdentityEnv
-from stable_baselines3_fyp.common.utils import get_device
-from stable_baselines3_fyp.common.vec_env import DummyVecEnv
+from stable_baselines3.common.envs import IdentityEnv
+from stable_baselines3.common.utils import get_device
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 MODEL_LIST = [
     PPO,

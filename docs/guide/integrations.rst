@@ -90,7 +90,7 @@ For instance ``sb3/demo-hf-CartPole-v1``:
 
   from huggingface_sb3 import load_from_hub
   from stable_baselines3 import PPO
-  from stable_baselines3_fyp.common.evaluation import evaluate_policy
+  from stable_baselines3.common.evaluation import evaluate_policy
 
   # Retrieve the model from the hub
   ## repo_id = id of the model repository from the Hugging Face Hub (repo_id = {organization}/{repo_name})
@@ -149,7 +149,7 @@ With ``package_to_hub()``
 .. code-block:: python
 
   from stable_baselines3 import PPO
-  from stable_baselines3_fyp.common.env_util import make_vec_env
+  from stable_baselines3.common.env_util import make_vec_env
 
   from huggingface_sb3 import package_to_hub
 
@@ -192,7 +192,7 @@ With ``push_to_hub()``
 
 
   from stable_baselines3 import PPO
-  from stable_baselines3_fyp.common.env_util import make_vec_env
+  from stable_baselines3.common.env_util import make_vec_env
 
   from huggingface_sb3 import push_to_hub
 
@@ -240,7 +240,7 @@ you can adapt the following code which defines a custom logger output:
   import numpy as np
 
   from stable_baselines3 import SAC
-  from stable_baselines3_fyp.common.logger import HumanOutputFormat, KVWriter, Logger
+  from stable_baselines3.common.logger import HumanOutputFormat, KVWriter, Logger
 
 
   class MLflowOutputFormat(KVWriter):

@@ -9,19 +9,19 @@ from gym import spaces
 
 import stable_baselines3 as sb3
 from stable_baselines3 import A2C
-from stable_baselines3_fyp.common.atari_wrappers import ClipRewardEnv, MaxAndSkipEnv
-from stable_baselines3_fyp.common.env_util import is_wrapped, make_atari_env, make_vec_env, unwrap_wrapper
-from stable_baselines3_fyp.common.evaluation import evaluate_policy
-from stable_baselines3_fyp.common.monitor import Monitor
-from stable_baselines3_fyp.common.noise import ActionNoise, OrnsteinUhlenbeckActionNoise, VectorizedActionNoise
-from stable_baselines3_fyp.common.utils import (
+from stable_baselines3.common.atari_wrappers import ClipRewardEnv, MaxAndSkipEnv
+from stable_baselines3.common.env_util import is_wrapped, make_atari_env, make_vec_env, unwrap_wrapper
+from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.noise import ActionNoise, OrnsteinUhlenbeckActionNoise, VectorizedActionNoise
+from stable_baselines3.common.utils import (
     get_parameters_by_name,
     get_system_info,
     is_vectorized_observation,
     polyak_update,
     zip_strict,
 )
-from stable_baselines3_fyp.common.vec_env import DummyVecEnv, SubprocVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
 
 @pytest.mark.parametrize("env_id", ["CartPole-v1", lambda: gym.make("CartPole-v1")])

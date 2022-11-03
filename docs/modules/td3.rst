@@ -1,6 +1,6 @@
 .. _td3:
 
-.. automodule:: stable_baselines3_fyp.td3
+.. automodule:: stable_baselines3.td3
 
 
 TD3
@@ -65,7 +65,7 @@ This example is only to demonstrate the use of the library and its functions, an
   import numpy as np
 
   from stable_baselines3 import TD3
-  from stable_baselines3_fyp.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
+  from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
 
   env = gym.make("Pendulum-v1")
 
@@ -163,7 +163,7 @@ TD3 Policies
   :members:
   :inherited-members:
 
-.. autoclass:: stable_baselines3_fyp.td3.policies.TD3Policy
+.. autoclass:: stable_baselines3.td3.policies.TD3Policy
   :members:
   :noindex:
 

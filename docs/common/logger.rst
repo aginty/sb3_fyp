@@ -17,7 +17,7 @@ Available formats are ``["stdout", "csv", "log", "tensorboard", "json"]``.
 .. code-block:: python
 
   from stable_baselines3 import A2C
-  from stable_baselines3_fyp.common.logger import configure
+  from stable_baselines3.common.logger import configure
 
   tmp_path = "/tmp/sb3_log/"
   # set up logger
@@ -109,5 +109,5 @@ train/
 - ``std``: Current standard deviation of the noise when using generalized State-Dependent Exploration (gSDE)
 
 
-.. automodule:: stable_baselines3_fyp.common.logger
+.. automodule:: stable_baselines3.common.logger
   :members:

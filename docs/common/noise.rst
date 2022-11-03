@@ -3,5 +3,5 @@
 Action Noise
 =============
 
-.. automodule:: stable_baselines3_fyp.common.noise
+.. automodule:: stable_baselines3.common.noise
   :members:

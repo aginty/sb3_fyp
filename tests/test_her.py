@@ -9,13 +9,13 @@ import pytest
 import torch as th
 
 from stable_baselines3 import DDPG, DQN, SAC, TD3, HerReplayBuffer
-from stable_baselines3_fyp.common.envs import BitFlippingEnv
-from stable_baselines3_fyp.common.evaluation import evaluate_policy
-from stable_baselines3_fyp.common.monitor import Monitor
-from stable_baselines3_fyp.common.noise import NormalActionNoise
-from stable_baselines3_fyp.common.vec_env import DummyVecEnv
-from stable_baselines3_fyp.her.goal_selection_strategy import GoalSelectionStrategy
-from stable_baselines3_fyp.her.her_replay_buffer import get_time_limit
+from stable_baselines3.common.envs import BitFlippingEnv
+from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.noise import NormalActionNoise
+from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.her.goal_selection_strategy import GoalSelectionStrategy
+from stable_baselines3.her.her_replay_buffer import get_time_limit
 
 
 def test_import_error():

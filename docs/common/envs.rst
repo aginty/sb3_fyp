@@ -1,6 +1,6 @@
 .. _envs:
 
-.. automodule:: stable_baselines3_fyp.common.envs
+.. automodule:: stable_baselines3.common.envs
 
 
 

@@ -6,9 +6,9 @@ import pytest
 from gym import spaces
 
 from stable_baselines3 import SAC, TD3, HerReplayBuffer
-from stable_baselines3_fyp.common.monitor import Monitor
-from stable_baselines3_fyp.common.running_mean_std import RunningMeanStd
-from stable_baselines3_fyp.common.vec_env import (
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.running_mean_std import RunningMeanStd
+from stable_baselines3.common.vec_env import (
     DummyVecEnv,
     VecFrameStack,
     VecNormalize,

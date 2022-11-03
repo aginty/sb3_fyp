@@ -1,6 +1,6 @@
 .. _sac:
 
-.. automodule:: stable_baselines3_fyp.sac
+.. automodule:: stable_baselines3.sac
 
 
 SAC
@@ -167,7 +167,7 @@ SAC Policies
   :members:
   :inherited-members:
 
-.. autoclass:: stable_baselines3_fyp.sac.policies.SACPolicy
+.. autoclass:: stable_baselines3.sac.policies.SACPolicy
   :members:
   :noindex:
 

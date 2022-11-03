@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 from pandas.errors import EmptyDataError
 
 from stable_baselines3 import A2C, DQN
-from stable_baselines3_fyp.common.logger import (
+from stable_baselines3.common.logger import (
     DEBUG,
     INFO,
     CSVOutputFormat,

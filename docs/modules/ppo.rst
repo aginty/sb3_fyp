@@ -1,6 +1,6 @@
 .. _ppo2:
 
-.. automodule:: stable_baselines3_fyp.ppo
+.. automodule:: stable_baselines3.ppo
 
 PPO
 ===
@@ -68,7 +68,7 @@ Train a PPO agent on ``CartPole-v1`` using 4 environments.
   import gym
 
   from stable_baselines3 import PPO
-  from stable_baselines3_fyp.common.env_util import make_vec_env
+  from stable_baselines3.common.env_util import make_vec_env
 
   # Parallel environments
   env = make_vec_env("CartPole-v1", n_envs=4)
@@ -168,20 +168,20 @@ PPO Policies
   :members:
   :inherited-members:
 
-.. autoclass:: stable_baselines3_fyp.common.policies.ActorCriticPolicy
+.. autoclass:: stable_baselines3.common.policies.ActorCriticPolicy
   :members:
   :noindex:
 
 .. autoclass:: CnnPolicy
   :members:
 
-.. autoclass:: stable_baselines3_fyp.common.policies.ActorCriticCnnPolicy
+.. autoclass:: stable_baselines3.common.policies.ActorCriticCnnPolicy
   :members:
   :noindex:
 
 .. autoclass:: MultiInputPolicy
   :members:
 
-.. autoclass:: stable_baselines3_fyp.common.policies.MultiInputActorCriticPolicy
+.. autoclass:: stable_baselines3.common.policies.MultiInputActorCriticPolicy
   :members:
   :noindex:

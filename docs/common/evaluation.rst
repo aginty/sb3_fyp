@@ -3,5 +3,5 @@
 Evaluation Helper
 =================
 
-.. automodule:: stable_baselines3_fyp.common.evaluation
+.. automodule:: stable_baselines3.common.evaluation
   :members:

@@ -7,7 +7,7 @@ import pytest
 import torch as th
 
 from stable_baselines3 import A2C, PPO
-from stable_baselines3_fyp.common.distributions import (
+from stable_baselines3.common.distributions import (
     BernoulliDistribution,
     CategoricalDistribution,
     DiagGaussianDistribution,
@@ -17,7 +17,7 @@ from stable_baselines3_fyp.common.distributions import (
     TanhBijector,
     kl_divergence,
 )
-from stable_baselines3_fyp.common.utils import set_random_seed
+from stable_baselines3.common.utils import set_random_seed
 
 N_ACTIONS = 2
 N_FEATURES = 3

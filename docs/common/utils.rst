@@ -3,5 +3,5 @@
 Utils
 =====
 
-.. automodule:: stable_baselines3_fyp.common.utils
+.. automodule:: stable_baselines3.common.utils
   :members:

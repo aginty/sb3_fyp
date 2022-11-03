@@ -22,5 +22,5 @@ computes the entropy, the log probability (``log_prob``) and backpropagate the g
 In the case of continuous actions, a Gaussian distribution is used. The policy network outputs
 mean and (log) std of the distribution (assumed to be a ``DiagGaussianDistribution``).
 
-.. automodule:: stable_baselines3_fyp.common.distributions
+.. automodule:: stable_baselines3.common.distributions
   :members:

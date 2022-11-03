@@ -108,7 +108,7 @@ that derives from ``BaseFeaturesExtractor`` and then pass it to the model when t
   import torch.nn as nn
 
   from stable_baselines3 import PPO
-  from stable_baselines3_fyp.common.torch_layers import BaseFeaturesExtractor
+  from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 
 
   class CustomCNN(BaseFeaturesExtractor):
@@ -174,7 +174,7 @@ downsampling and "vector" with a single linear layer.
   import torch as th
   from torch import nn
 
-  from stable_baselines3_fyp.common.torch_layers import BaseFeaturesExtractor
+  from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 
   class CustomCombinedExtractor(BaseFeaturesExtractor):
       def __init__(self, observation_space: gym.spaces.Dict):
@@ -293,7 +293,7 @@ If your task requires even more granular control over the policy/value architect
   from torch import nn
 
   from stable_baselines3 import PPO
-  from stable_baselines3_fyp.common.policies import ActorCriticPolicy
+  from stable_baselines3.common.policies import ActorCriticPolicy
 
 
   class CustomNetwork(nn.Module):
