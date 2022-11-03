@@ -910,27 +910,27 @@ class MlpContinuousCritic(BaseContinuousCritic):
         is_image: bool = False
     ):
 
-    super().__init__(
-        observation_space,
-        action_space,
-        features_extractor,
-        features_extractor_class,
-        features_extractor_kwargs,
-        noramlize_images=noramlize_images,
-        squash_output=True
-    )
+        super().__init__(
+            observation_space,
+            action_space,
+            features_extractor,
+            features_extractor_class,
+            features_extractor_kwargs,
+            noramlize_images=noramlize_images,
+            squash_output=True
+        )
 
-    if net_arch is None:
-        if is_image:
-            net_arch = [256, 256]
-        else:
-            net_arch = [400, 300]
+        if net_arch is None:
+            if is_image:
+                net_arch = [256, 256]
+            else:
+                net_arch = [400, 300]
 
-    self.net_arch = net_arch
-    self.activation_fn = activation_fn
+        self.net_arch = net_arch
+        self.activation_fn = activation_fn
 
-    def build_q_net(self) -> nn.Module:
-        q = create_mlp(self.features_dim, self.action_dim, self.net_arch,
-                       self.activation_fn, squash_output=True)
-        q_net = nn.Sequential(*q)
-        return q_net
+        def build_q_net(self) -> nn.Module:
+            q = create_mlp(self.features_dim, self.action_dim, self.net_arch,
+                        self.activation_fn, squash_output=True)
+            q_net = nn.Sequential(*q)
+            return q_net
