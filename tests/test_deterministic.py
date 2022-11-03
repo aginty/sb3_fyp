@@ -1,7 +1,7 @@
 import pytest
 
 from stable_baselines3 import A2C, DQN, PPO, SAC, TD3
-from stable_baselines3.common.noise import NormalActionNoise
+from stable_baselines3_fyp.common.noise import NormalActionNoise
 
 N_STEPS_TRAINING = 500
 SEED = 0

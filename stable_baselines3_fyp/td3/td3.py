@@ -5,13 +5,13 @@ import numpy as np
 import torch as th
 from torch.nn import functional as F
 
-from stable_baselines3.common.buffers import ReplayBuffer
-from stable_baselines3.common.noise import ActionNoise
-from stable_baselines3.common.off_policy_algorithm import OffPolicyAlgorithm
-from stable_baselines3.common.policies import BasePolicy
-from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, Schedule
-from stable_baselines3.common.utils import get_parameters_by_name, polyak_update
-from stable_baselines3.td3.policies import CnnPolicy, MlpPolicy, MultiInputPolicy, TD3Policy
+from stable_baselines3_fyp.common.buffers import ReplayBuffer
+from stable_baselines3_fyp.common.noise import ActionNoise
+from stable_baselines3_fyp.common.off_policy_algorithm import OffPolicyAlgorithm
+from stable_baselines3_fyp.common.policies import BasePolicy
+from stable_baselines3_fyp.common.type_aliases import GymEnv, MaybeCallback, Schedule
+from stable_baselines3_fyp.common.utils import get_parameters_by_name, polyak_update
+from stable_baselines3_fyp.td3.policies import CnnPolicy, MlpPolicy, MultiInputPolicy, TD3Policy
 
 TD3Self = TypeVar("TD3Self", bound="TD3")
 

@@ -3,5 +3,5 @@
 Atari Wrappers
 ==============
 
-.. automodule:: stable_baselines3.common.atari_wrappers
+.. automodule:: stable_baselines3_fyp.common.atari_wrappers
   :members:

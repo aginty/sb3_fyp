@@ -67,7 +67,7 @@ In the following example, we will train, save and load a DQN model on the Lunar 
   import gym
 
   from stable_baselines3 import DQN
-  from stable_baselines3.common.evaluation import evaluate_policy
+  from stable_baselines3_fyp.common.evaluation import evaluate_policy
 
 
   # Create environment
@@ -118,9 +118,9 @@ Multiprocessing: Unleashing the Power of Vectorized Environments
   import numpy as np
 
   from stable_baselines3 import PPO
-  from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
-  from stable_baselines3.common.env_util import make_vec_env
-  from stable_baselines3.common.utils import set_random_seed
+  from stable_baselines3_fyp.common.vec_env import DummyVecEnv, SubprocVecEnv
+  from stable_baselines3_fyp.common.env_util import make_vec_env
+  from stable_baselines3_fyp.common.utils import set_random_seed
 
   def make_env(env_id, rank, seed=0):
       """
@@ -175,7 +175,7 @@ Multiprocessing with off-policy algorithms
   import gym
 
   from stable_baselines3 import SAC
-  from stable_baselines3.common.env_util import make_vec_env
+  from stable_baselines3_fyp.common.env_util import make_vec_env
 
   env = make_vec_env("Pendulum-v0", n_envs=4, seed=0)
 
@@ -198,7 +198,7 @@ These dictionaries are randomly initilaized on the creation of the environment a
 .. code-block:: python
 
   from stable_baselines3 import PPO
-  from stable_baselines3.common.envs import SimpleMultiObsEnv
+  from stable_baselines3_fyp.common.envs import SimpleMultiObsEnv
 
 
   # Stable Baselines provides SimpleMultiObsEnv as an example environment with Dict observations
@@ -233,11 +233,11 @@ If your callback returns False, training is aborted early.
   import matplotlib.pyplot as plt
 
   from stable_baselines3 import TD3
-  from stable_baselines3.common import results_plotter
-  from stable_baselines3.common.monitor import Monitor
-  from stable_baselines3.common.results_plotter import load_results, ts2xy, plot_results
-  from stable_baselines3.common.noise import NormalActionNoise
-  from stable_baselines3.common.callbacks import BaseCallback
+  from stable_baselines3_fyp.common import results_plotter
+  from stable_baselines3_fyp.common.monitor import Monitor
+  from stable_baselines3_fyp.common.results_plotter import load_results, ts2xy, plot_results
+  from stable_baselines3_fyp.common.noise import NormalActionNoise
+  from stable_baselines3_fyp.common.callbacks import BaseCallback
 
 
   class SaveOnBestTrainingRewardCallback(BaseCallback):
@@ -329,8 +329,8 @@ and multiprocessing for you. To install the Atari environments, run the command 
 
 .. code-block:: python
 
-  from stable_baselines3.common.env_util import make_atari_env
-  from stable_baselines3.common.vec_env import VecFrameStack
+  from stable_baselines3_fyp.common.env_util import make_atari_env
+  from stable_baselines3_fyp.common.vec_env import VecFrameStack
   from stable_baselines3 import A2C
 
   # There already exists an environment generator
@@ -374,7 +374,7 @@ will compute a running average and standard deviation of input features (it can 
   import gym
   import pybullet_envs
 
-  from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
+  from stable_baselines3_fyp.common.vec_env import DummyVecEnv, VecNormalize
   from stable_baselines3 import PPO
 
   env = DummyVecEnv([lambda: gym.make("HalfCheetahBulletEnv-v0")])
@@ -434,7 +434,7 @@ The parking env is a goal-conditioned continuous control task, in which the vehi
   import numpy as np
 
   from stable_baselines3 import HerReplayBuffer, SAC, DDPG, TD3
-  from stable_baselines3.common.noise import NormalActionNoise
+  from stable_baselines3_fyp.common.noise import NormalActionNoise
 
   env = gym.make("parking-v0")
 
@@ -552,8 +552,8 @@ However, SB3 provides a ``save_replay_buffer()`` and ``load_replay_buffer()`` me
 .. code-block:: python
 
   from stable_baselines3 import SAC
-  from stable_baselines3.common.evaluation import evaluate_policy
-  from stable_baselines3.sac.policies import MlpPolicy
+  from stable_baselines3_fyp.common.evaluation import evaluate_policy
+  from stable_baselines3_fyp.sac.policies import MlpPolicy
 
   # Create the model and the training environment
   model = SAC("MlpPolicy", "Pendulum-v1", verbose=1,
@@ -629,7 +629,7 @@ A2C policy gradient updates on the model.
   import torch as th
 
   from stable_baselines3 import A2C
-  from stable_baselines3.common.evaluation import evaluate_policy
+  from stable_baselines3_fyp.common.evaluation import evaluate_policy
 
 
   def mutate(params: Dict[str, th.Tensor]) -> Dict[str, th.Tensor]:
@@ -705,7 +705,7 @@ to keep track of the agent progress.
   from procgen import ProcgenEnv
 
   from stable_baselines3 import PPO
-  from stable_baselines3.common.vec_env import VecExtractDictObs, VecMonitor
+  from stable_baselines3_fyp.common.vec_env import VecExtractDictObs, VecMonitor
 
   # ProcgenEnv is already vectorized
   venv = ProcgenEnv(num_envs=2, env_name="starpilot")
@@ -742,7 +742,7 @@ Record a mp4 video (here using a random agent).
 .. code-block:: python
 
   import gym
-  from stable_baselines3.common.vec_env import VecVideoRecorder, DummyVecEnv
+  from stable_baselines3_fyp.common.vec_env import VecVideoRecorder, DummyVecEnv
 
   env_id = "CartPole-v1"
   video_folder = "logs/videos/"

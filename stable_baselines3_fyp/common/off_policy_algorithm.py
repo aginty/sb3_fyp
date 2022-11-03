@@ -10,16 +10,16 @@ import gym
 import numpy as np
 import torch as th
 
-from stable_baselines3.common.base_class import BaseAlgorithm
-from stable_baselines3.common.buffers import DictReplayBuffer, ReplayBuffer
-from stable_baselines3.common.callbacks import BaseCallback
-from stable_baselines3.common.noise import ActionNoise, VectorizedActionNoise
-from stable_baselines3.common.policies import BasePolicy
-from stable_baselines3.common.save_util import load_from_pkl, save_to_pkl
-from stable_baselines3.common.type_aliases import GymEnv, MaybeCallback, RolloutReturn, Schedule, TrainFreq, TrainFrequencyUnit
-from stable_baselines3.common.utils import safe_mean, should_collect_more_steps
-from stable_baselines3.common.vec_env import VecEnv
-from stable_baselines3.her.her_replay_buffer import HerReplayBuffer
+from stable_baselines3_fyp.common.base_class import BaseAlgorithm
+from stable_baselines3_fyp.common.buffers import DictReplayBuffer, ReplayBuffer
+from stable_baselines3_fyp.common.callbacks import BaseCallback
+from stable_baselines3_fyp.common.noise import ActionNoise, VectorizedActionNoise
+from stable_baselines3_fyp.common.policies import BasePolicy
+from stable_baselines3_fyp.common.save_util import load_from_pkl, save_to_pkl
+from stable_baselines3_fyp.common.type_aliases import GymEnv, MaybeCallback, RolloutReturn, Schedule, TrainFreq, TrainFrequencyUnit
+from stable_baselines3_fyp.common.utils import safe_mean, should_collect_more_steps
+from stable_baselines3_fyp.common.vec_env import VecEnv
+from stable_baselines3_fyp.her.her_replay_buffer import HerReplayBuffer
 
 OffPolicyAlgorithmSelf = TypeVar("OffPolicyAlgorithmSelf", bound="OffPolicyAlgorithm")
 

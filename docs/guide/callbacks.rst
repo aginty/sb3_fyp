@@ -20,7 +20,7 @@ You can find two examples of custom callbacks in the documentation: one for savi
 
 .. code-block:: python
 
-    from stable_baselines3.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
 
 
     class CustomCallback(BaseCallback):
@@ -44,7 +44,7 @@ You can find two examples of custom callbacks in the documentation: one for savi
             # self.locals = None  # type: Dict[str, Any]
             # self.globals = None  # type: Dict[str, Any]
             # The logger object, used to report things in the terminal
-            # self.logger = None  # stable_baselines3.common.logger
+            # self.logger = None  # stable_baselines3_fyp.common.logger
             # # Sometimes, for event callback, it is useful
             # # to have access to the parent object
             # self.parent = None  # type: Optional[BaseCallback]
@@ -173,7 +173,7 @@ corresponding statistics using ``save_vecnormalize`` (``False`` by default).
 .. code-block:: python
 
   from stable_baselines3 import SAC
-  from stable_baselines3.common.callbacks import CheckpointCallback
+  from stable_baselines3_fyp.common.callbacks import CheckpointCallback
 
   # Save a checkpoint every 1000 steps
   checkpoint_callback = CheckpointCallback(
@@ -213,7 +213,7 @@ It will save the best model if ``best_model_save_path`` folder is specified and 
     import gym
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import EvalCallback
+    from stable_baselines3_fyp.common.callbacks import EvalCallback
 
     # Separate evaluation env
     eval_env = gym.make("Pendulum-v1")
@@ -241,7 +241,7 @@ This callback is integrated inside SB3 via the ``progress_bar`` argument of the 
 .. code-block:: python
 
     from stable_baselines3 import PPO
-    from stable_baselines3.common.callbacks import ProgressBarCallback
+    from stable_baselines3_fyp.common.callbacks import ProgressBarCallback
 
     model = PPO("MlpPolicy", "Pendulum-v1")
     # Display progress bar using the progress bar callback
@@ -263,7 +263,7 @@ Alternatively, you can pass directly a list of callbacks to the ``learn()`` meth
     import gym
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import CallbackList, CheckpointCallback, EvalCallback
+    from stable_baselines3_fyp.common.callbacks import CallbackList, CheckpointCallback, EvalCallback
 
     checkpoint_callback = CheckpointCallback(save_freq=1000, save_path="./logs/")
     # Separate evaluation env
@@ -293,7 +293,7 @@ It must be used with the :ref:`EvalCallback` and use the event triggered by a ne
     import gym
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import EvalCallback, StopTrainingOnRewardThreshold
+    from stable_baselines3_fyp.common.callbacks import EvalCallback, StopTrainingOnRewardThreshold
 
     # Separate evaluation env
     eval_env = gym.make("Pendulum-v1")
@@ -325,7 +325,7 @@ An :ref:`EventCallback` that will trigger its child callback every ``n_steps`` t
   import gym
 
   from stable_baselines3 import PPO
-  from stable_baselines3.common.callbacks import CheckpointCallback, EveryNTimesteps
+  from stable_baselines3_fyp.common.callbacks import CheckpointCallback, EveryNTimesteps
 
   # this is equivalent to defining CheckpointCallback(save_freq=500)
   # checkpoint_callback will be triggered every 500 steps
@@ -356,7 +356,7 @@ and in total for ``max_episodes * n_envs`` episodes.
 .. code-block:: python
 
     from stable_baselines3 import A2C
-    from stable_baselines3.common.callbacks import StopTrainingOnMaxEpisodes
+    from stable_baselines3_fyp.common.callbacks import StopTrainingOnMaxEpisodes
 
     # Stops training when the model reaches the maximum number of episodes
     callback_max_episodes = StopTrainingOnMaxEpisodes(max_episodes=5, verbose=1)
@@ -382,7 +382,7 @@ It must be used with the :ref:`EvalCallback` and use the event triggered after e
     import gym
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import EvalCallback, StopTrainingOnNoModelImprovement
+    from stable_baselines3_fyp.common.callbacks import EvalCallback, StopTrainingOnNoModelImprovement
 
     # Separate evaluation env
     eval_env = gym.make("Pendulum-v1")
@@ -397,5 +397,5 @@ It must be used with the :ref:`EvalCallback` and use the event triggered after e
     model.learn(int(1e10), callback=eval_callback)
 
 
-.. automodule:: stable_baselines3.common.callbacks
+.. automodule:: stable_baselines3_fyp.common.callbacks
   :members:

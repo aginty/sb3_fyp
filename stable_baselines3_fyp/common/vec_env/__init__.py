@@ -3,21 +3,21 @@ import typing
 from copy import deepcopy
 from typing import Optional, Type, Union
 
-from stable_baselines3.common.vec_env.base_vec_env import CloudpickleWrapper, VecEnv, VecEnvWrapper
-from stable_baselines3.common.vec_env.dummy_vec_env import DummyVecEnv
-from stable_baselines3.common.vec_env.stacked_observations import StackedDictObservations, StackedObservations
-from stable_baselines3.common.vec_env.subproc_vec_env import SubprocVecEnv
-from stable_baselines3.common.vec_env.vec_check_nan import VecCheckNan
-from stable_baselines3.common.vec_env.vec_extract_dict_obs import VecExtractDictObs
-from stable_baselines3.common.vec_env.vec_frame_stack import VecFrameStack
-from stable_baselines3.common.vec_env.vec_monitor import VecMonitor
-from stable_baselines3.common.vec_env.vec_normalize import VecNormalize
-from stable_baselines3.common.vec_env.vec_transpose import VecTransposeImage
-from stable_baselines3.common.vec_env.vec_video_recorder import VecVideoRecorder
+from stable_baselines3_fyp.common.vec_env.base_vec_env import CloudpickleWrapper, VecEnv, VecEnvWrapper
+from stable_baselines3_fyp.common.vec_env.dummy_vec_env import DummyVecEnv
+from stable_baselines3_fyp.common.vec_env.stacked_observations import StackedDictObservations, StackedObservations
+from stable_baselines3_fyp.common.vec_env.subproc_vec_env import SubprocVecEnv
+from stable_baselines3_fyp.common.vec_env.vec_check_nan import VecCheckNan
+from stable_baselines3_fyp.common.vec_env.vec_extract_dict_obs import VecExtractDictObs
+from stable_baselines3_fyp.common.vec_env.vec_frame_stack import VecFrameStack
+from stable_baselines3_fyp.common.vec_env.vec_monitor import VecMonitor
+from stable_baselines3_fyp.common.vec_env.vec_normalize import VecNormalize
+from stable_baselines3_fyp.common.vec_env.vec_transpose import VecTransposeImage
+from stable_baselines3_fyp.common.vec_env.vec_video_recorder import VecVideoRecorder
 
 # Avoid circular import
 if typing.TYPE_CHECKING:
-    from stable_baselines3.common.type_aliases import GymEnv
+    from stable_baselines3_fyp.common.type_aliases import GymEnv
 
 
 def unwrap_vec_wrapper(env: Union["GymEnv", VecEnv], vec_wrapper_class: Type[VecEnvWrapper]) -> Optional[VecEnvWrapper]:

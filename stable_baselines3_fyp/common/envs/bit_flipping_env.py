@@ -5,7 +5,7 @@ import numpy as np
 from gym import GoalEnv, spaces
 from gym.envs.registration import EnvSpec
 
-from stable_baselines3.common.type_aliases import GymStepReturn
+from stable_baselines3_fyp.common.type_aliases import GymStepReturn
 
 
 class BitFlippingEnv(GoalEnv):

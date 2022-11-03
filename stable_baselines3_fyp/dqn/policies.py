@@ -4,15 +4,15 @@ import gym
 import torch as th
 from torch import nn
 
-from stable_baselines3.common.policies import BasePolicy
-from stable_baselines3.common.torch_layers import (
+from stable_baselines3_fyp.common.policies import BasePolicy
+from stable_baselines3_fyp.common.torch_layers import (
     BaseFeaturesExtractor,
     CombinedExtractor,
     FlattenExtractor,
     NatureCNN,
     create_mlp,
 )
-from stable_baselines3.common.type_aliases import Schedule
+from stable_baselines3_fyp.common.type_aliases import Schedule
 
 
 class QNetwork(BasePolicy):

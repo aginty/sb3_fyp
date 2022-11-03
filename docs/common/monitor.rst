@@ -3,5 +3,5 @@
 Monitor Wrapper
 ===============
 
-.. automodule:: stable_baselines3.common.monitor
+.. automodule:: stable_baselines3_fyp.common.monitor
   :members:

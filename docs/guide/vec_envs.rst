@@ -1,6 +1,6 @@
 .. _vec_env:
 
-.. automodule:: stable_baselines3.common.vec_env
+.. automodule:: stable_baselines3_fyp.common.vec_env
 
 Vectorized Environments
 =======================
@@ -56,7 +56,7 @@ You can find below an example for extracting one key from the observation:
 
 	import numpy as np
 
-	from stable_baselines3.common.vec_env.base_vec_env import VecEnv, VecEnvStepReturn, VecEnvWrapper
+	from stable_baselines3_fyp.common.vec_env.base_vec_env import VecEnv, VecEnvStepReturn, VecEnvWrapper
 
 
 	class VecExtractDictObs(VecEnvWrapper):
@@ -119,13 +119,13 @@ VecFrameStack
 StackedObservations
 ~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: stable_baselines3.common.vec_env.stacked_observations.StackedObservations
+.. autoclass:: stable_baselines3_fyp.common.vec_env.stacked_observations.StackedObservations
   :members:
 
 StackedDictObservations
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: stable_baselines3.common.vec_env.stacked_observations.StackedDictObservations
+.. autoclass:: stable_baselines3_fyp.common.vec_env.stacked_observations.StackedDictObservations
   :members:
 
 VecNormalize

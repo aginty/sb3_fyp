@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from stable_baselines3 import A2C, DDPG, DQN, PPO, SAC, TD3, HerReplayBuffer
-from stable_baselines3.common.callbacks import (
+from stable_baselines3_fyp.common.callbacks import (
     CallbackList,
     CheckpointCallback,
     EvalCallback,
@@ -15,9 +15,9 @@ from stable_baselines3.common.callbacks import (
     StopTrainingOnNoModelImprovement,
     StopTrainingOnRewardThreshold,
 )
-from stable_baselines3.common.env_util import make_vec_env
-from stable_baselines3.common.envs import BitFlippingEnv, IdentityEnv
-from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
+from stable_baselines3_fyp.common.env_util import make_vec_env
+from stable_baselines3_fyp.common.envs import BitFlippingEnv, IdentityEnv
+from stable_baselines3_fyp.common.vec_env import DummyVecEnv, VecNormalize
 
 
 @pytest.mark.parametrize("model_class", [A2C, PPO, SAC, TD3, DQN, DDPG])

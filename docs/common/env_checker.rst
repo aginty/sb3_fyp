@@ -3,5 +3,5 @@
 Gym Environment Checker
 ========================
 
-.. automodule:: stable_baselines3.common.env_checker
+.. automodule:: stable_baselines3_fyp.common.env_checker
   :members:

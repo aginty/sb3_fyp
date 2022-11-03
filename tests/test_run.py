@@ -3,8 +3,8 @@ import numpy as np
 import pytest
 
 from stable_baselines3 import A2C, DDPG, DQN, PPO, SAC, TD3
-from stable_baselines3.common.env_util import make_vec_env
-from stable_baselines3.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
+from stable_baselines3_fyp.common.env_util import make_vec_env
+from stable_baselines3_fyp.common.noise import NormalActionNoise, OrnsteinUhlenbeckActionNoise
 
 normal_action_noise = NormalActionNoise(np.zeros(1), 0.1 * np.ones(1))
 

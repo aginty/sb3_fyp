@@ -75,7 +75,7 @@ Here is a simple example on how to log both additional tensor or arbitrary scala
     import numpy as np
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
 
     model = SAC("MlpPolicy", "Pendulum-v1", tensorboard_log="/tmp/sac/", verbose=1)
 
@@ -117,8 +117,8 @@ Here is an example of how to render an image to TensorBoard at regular intervals
 .. code-block:: python
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import BaseCallback
-    from stable_baselines3.common.logger import Image
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.logger import Image
 
     model = SAC("MlpPolicy", "Pendulum-v1", tensorboard_log="/tmp/sac/", verbose=1)
 
@@ -154,8 +154,8 @@ Here is an example of how to store a plot in TensorBoard at regular intervals:
     import matplotlib.pyplot as plt
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import BaseCallback
-    from stable_baselines3.common.logger import Figure
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.logger import Figure
 
     model = SAC("MlpPolicy", "Pendulum-v1", tensorboard_log="/tmp/sac/", verbose=1)
 
@@ -194,9 +194,9 @@ Here is an example of how to render an episode and log the resulting video to Te
     import torch as th
 
     from stable_baselines3 import A2C
-    from stable_baselines3.common.callbacks import BaseCallback
-    from stable_baselines3.common.evaluation import evaluate_policy
-    from stable_baselines3.common.logger import Video
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.evaluation import evaluate_policy
+    from stable_baselines3_fyp.common.logger import Video
 
 
     class VideoRecorderCallback(BaseCallback):
@@ -263,8 +263,8 @@ Here is an example of how to save hyperparameters in TensorBoard:
 .. code-block:: python
 
     from stable_baselines3 import A2C
-    from stable_baselines3.common.callbacks import BaseCallback
-    from stable_baselines3.common.logger import HParam
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.logger import HParam
 
 
     class HParamCallback(BaseCallback):
@@ -311,8 +311,8 @@ can get direct access to the underlying SummaryWriter in a callback:
 .. code-block:: python
 
     from stable_baselines3 import SAC
-    from stable_baselines3.common.callbacks import BaseCallback
-    from stable_baselines3.common.logger import TensorBoardOutputFormat
+    from stable_baselines3_fyp.common.callbacks import BaseCallback
+    from stable_baselines3_fyp.common.logger import TensorBoardOutputFormat
 
 
 

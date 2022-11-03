@@ -410,7 +410,7 @@ Release 1.1.0 (2021-07-01)
 
 Breaking Changes:
 ^^^^^^^^^^^^^^^^^
-- All customs environments (e.g. the ``BitFlippingEnv`` or ``IdentityEnv``) were moved to ``stable_baselines3.common.envs`` folder
+- All customs environments (e.g. the ``BitFlippingEnv`` or ``IdentityEnv``) were moved to ``stable_baselines3_fyp.common.envs`` folder
 - Refactored ``HER`` which is now the ``HerReplayBuffer`` class that can be passed to any off-policy algorithm
 - Handle timeout termination properly for off-policy algorithms (when using ``TimeLimit``)
 - Renamed ``_last_dones`` and ``dones`` to ``_last_episode_starts`` and ``episode_starts`` in ``RolloutBuffer``.
@@ -499,7 +499,7 @@ Release 1.0 (2021-03-15)
 
 Breaking Changes:
 ^^^^^^^^^^^^^^^^^
-- Removed ``stable_baselines3.common.cmd_util`` (already deprecated), please use ``env_util`` instead
+- Removed ``stable_baselines3_fyp.common.cmd_util`` (already deprecated), please use ``env_util`` instead
 
 .. warning::
 
@@ -692,12 +692,12 @@ Breaking Changes:
 - Removed ``device`` keyword argument of policies; use ``policy.to(device)`` instead. (@qxcv)
 - Rename ``BaseClass.get_torch_variables`` -> ``BaseClass._get_torch_save_params`` and ``BaseClass.excluded_save_params`` -> ``BaseClass._excluded_save_params``
 - Renamed saved items ``tensors`` to ``pytorch_variables`` for clarity
-- ``make_atari_env``, ``make_vec_env`` and ``set_random_seed`` must be imported with (and not directly from ``stable_baselines3.common``):
+- ``make_atari_env``, ``make_vec_env`` and ``set_random_seed`` must be imported with (and not directly from ``stable_baselines3_fyp.common``):
 
 .. code-block:: python
 
-  from stable_baselines3.common.cmd_util import make_atari_env, make_vec_env
-  from stable_baselines3.common.utils import set_random_seed
+  from stable_baselines3_fyp.common.cmd_util import make_atari_env, make_vec_env
+  from stable_baselines3_fyp.common.utils import set_random_seed
 
 
 New Features:

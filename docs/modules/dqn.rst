@@ -1,6 +1,6 @@
 .. _dqn:
 
-.. automodule:: stable_baselines3.dqn
+.. automodule:: stable_baselines3_fyp.dqn
 
 
 DQN
@@ -130,7 +130,7 @@ DQN Policies
   :members:
   :inherited-members:
 
-.. autoclass:: stable_baselines3.dqn.policies.DQNPolicy
+.. autoclass:: stable_baselines3_fyp.dqn.policies.DQNPolicy
   :members:
   :noindex:
 
