@@ -40,7 +40,7 @@ class BaseActor(BasePolicy, ABC):
         action_space: gym.spaces.Space,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
-        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
     ):
         super().__init__(
