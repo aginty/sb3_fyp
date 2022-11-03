@@ -117,7 +117,7 @@ class MlpActor(BaseActor):
             features_extractor=features_extractor,
             features_extractor_class=features_extractor_class,
             features_extractor_kwargs=features_extractor_kwargs,
-            normalize_image = normalize_images,
+            normalize_images= normalize_images,
             squash_output=True
         )
 
