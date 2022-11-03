@@ -104,7 +104,7 @@ class MlpActor(BaseActor):
         activation_fn: Type[nn.Module] = nn.ReLU,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
-        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
         is_image: bool = False
     ):
