@@ -61,9 +61,11 @@ class BaseModel(nn.Module):
         self,
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
-        features_extractor_class: Type[BaseFeaturesExtractor] = FlattenExtractor,
+        #-------optional feature extractor-----------------#
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
         features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         features_extractor: Optional[nn.Module] = None,
+        #--------------------------------------------------#
         normalize_images: bool = True,
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
@@ -88,6 +90,11 @@ class BaseModel(nn.Module):
         self.features_extractor_class = features_extractor_class
         self.features_extractor_kwargs = features_extractor_kwargs
 
+    def has_feature_extractor(self) -> bool:
+        if self.features_extractor is None and self.features_extractor_class is None:
+            return False
+        return True
+
     def _update_features_extractor(
         self,
         net_kwargs: Dict[str, Any],
@@ -103,15 +110,17 @@ class BaseModel(nn.Module):
             If None, a new object will be created.
         :return: The updated keyword arguments
         """
-        net_kwargs = net_kwargs.copy()
-        if features_extractor is None:
-            # The features extractor is not shared, create a new one
-            features_extractor = self.make_features_extractor()
-        net_kwargs.update(dict(features_extractor=features_extractor, features_dim=features_extractor.features_dim))
+        if self.has_feature_extractor():
+            net_kwargs = net_kwargs.copy()
+            if features_extractor is None:
+                # The features extractor is not shared, create a new one
+                features_extractor = self.make_features_extractor()
+            net_kwargs.update(dict(features_extractor=features_extractor, features_dim=features_extractor.features_dim))
         return net_kwargs
 
     def make_features_extractor(self) -> BaseFeaturesExtractor:
         """Helper method to create a features extractor."""
+        assert self.has_feature_extractor(), "No feature extractor class was set"
         return self.features_extractor_class(self.observation_space, **self.features_extractor_kwargs)
 
     def extract_features(self, obs: th.Tensor) -> th.Tensor:
@@ -121,7 +130,7 @@ class BaseModel(nn.Module):
         :param obs:
         :return:
         """
-        assert self.features_extractor is not None, "No features extractor was set"
+        assert self.has_feature_extractor(), "No features extractor was set"
         preprocessed_obs = preprocess_obs(obs, self.observation_space, normalize_images=self.normalize_images)
         return self.features_extractor(preprocessed_obs)
 
