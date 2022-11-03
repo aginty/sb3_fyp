@@ -1,4 +1,5 @@
 from typing import Any, Dict, List, Optional, Type, Union
+from abc import ABC, abstractmethod
 
 import gym
 import torch as th
@@ -17,7 +18,7 @@ from stable_baselines3.common.torch_layers import (
 from stable_baselines3.common.type_aliases import Schedule
 
 
-class Actor(BasePolicy):
+class BaseActor(BasePolicy, ABC):
     """
     Actor network (policy) for TD3.
 
@@ -36,10 +37,8 @@ class Actor(BasePolicy):
         self,
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
-        net_arch: List[int],
-        features_extractor: nn.Module,
+        features_extractor: Optional[nn.Module] = None,
         features_dim: int,
-        activation_fn: Type[nn.Module] = nn.ReLU,
         normalize_images: bool = True,
     ):
         super().__init__(
@@ -50,14 +49,11 @@ class Actor(BasePolicy):
             squash_output=True,
         )
 
-        self.net_arch = net_arch
         self.features_dim = features_dim
-        self.activation_fn = activation_fn
-
-        action_dim = get_action_dim(self.action_space)
-        actor_net = create_mlp(features_dim, action_dim, net_arch, activation_fn, squash_output=True)
+        self.action_dim = get_action_dim(self.action_space)
+        
         # Deterministic action
-        self.mu = nn.Sequential(*actor_net)
+        self.mu = self.build_mu()
 
     def _get_constructor_parameters(self) -> Dict[str, Any]:
         data = super()._get_constructor_parameters()
@@ -72,14 +68,21 @@ class Actor(BasePolicy):
         )
         return data
 
-    def forward(self, obs: th.Tensor) -> th.Tensor:
-        # assert deterministic, 'The TD3 actor only outputs deterministic actions'
-        features = self.extract_features(obs)
-        return self.mu(features)
+    @abstractmethod
+    def build_mu(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def forward(self, features: th.Tensor) -> th.Tensor:
+        raise NotImplementedError
 
     def _predict(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
+        if self.has_feature_extractor():
+            features = self.extract_features(observation)
+        else:
+            features = observation
         return self(observation)
 
 
