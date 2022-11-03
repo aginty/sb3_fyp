@@ -48,7 +48,7 @@ class BaseActor(BasePolicy, ABC):
             action_space,
             features_extractor=features_extractor,
             features_extractor_class=features_extractor_class,
-            feature_extractor_kwargs=feature_extractor_kwargs,
+            features_extractor_kwargs=feature_extractor_kwargs,
             normalize_images=normalize_images,
             squash_output=True,
         )
@@ -74,6 +74,8 @@ class BaseActor(BasePolicy, ABC):
                 features_dim=self.features_dim,
                 activation_fn=self.activation_fn,
                 features_extractor=self.features_extractor,
+                features_extractor_class=features_extractor_class,
+                features_extractor_kwargs=features_extractor_kwargs
             )
         )
         return data
