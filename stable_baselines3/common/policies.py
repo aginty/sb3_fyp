@@ -836,6 +836,8 @@ class BaseContinuousCritic(BaseModel, ABC):
         action_space: gym.spaces.Space,
         features_dim: int,
         features_extractor: Optional[nn.Module] = None,
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
+        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
         n_critics: int = 2,
         share_features_extractor: bool = True,
@@ -844,6 +846,8 @@ class BaseContinuousCritic(BaseModel, ABC):
             observation_space,
             action_space,
             features_extractor=features_extractor,
+            features_extractor_class=features_extractor_class,
+            feature_extractor_kwargs=feature_extractor_kwargs,
             normalize_images=normalize_images,
         )
 
@@ -885,3 +889,44 @@ class BaseContinuousCritic(BaseModel, ABC):
         else:
             features = obs
         return self.q_networks[0](th.cat([features, actions], dim=1))
+
+class MlpContinuousCritic(BaseContinuousCritic):
+    def __init__(
+        self,
+        observation_space: gym.spaces.Space,
+        action_space: gym.spaces.Space,
+        features_dim: int,
+        net_arch: List[int] = None,
+        features_extractor: Optional[nn.Module] = None,
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
+        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        normalize_images: bool = True,
+        n_critics: int = 2,
+        share_features_extractor: bool = True,
+        is_image: bool = False
+    ):
+
+    super().__init__(
+        observation_space,
+        action_space,
+        features_extractor,
+        features_extractor_class,
+        features_extractor_kwargs,
+        noramlize_images=noramlize_images,
+        squash_output=True
+    )
+
+    if net_arch is None:
+        if is_image:
+            net_arch = [256, 256]
+        else:
+            net_arch = [400, 300]
+
+    self.net_arch = net_arch
+    self.activation_fn = activation_fn
+
+    def build_q_net(self) -> nn.Module:
+        q = create_mlp(self.features_dim, self.action_dim, self.net_arch,
+                       self.activation_fn, squash_output=True)
+        q_net = nn.Sequential(*q)
+        return q_net
