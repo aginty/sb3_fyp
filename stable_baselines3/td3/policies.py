@@ -109,33 +109,33 @@ class MlpActor(BaseActor):
         is_image: bool = False
     ):
 
-    super().__init__(
-        observation_space,
-        action_space,
-        features_extractor=features_extractor,
-        features_extractor_class=features_extractor_class,
-        features_extractor_kwargs=features_extractor_kwargs,
-        normalize_image = normalize_images,
-        squash_output=True
-    )
+        super().__init__(
+            observation_space,
+            action_space,
+            features_extractor=features_extractor,
+            features_extractor_class=features_extractor_class,
+            features_extractor_kwargs=features_extractor_kwargs,
+            normalize_image = normalize_images,
+            squash_output=True
+        )
 
-    if net_arch is None:
-        if is_image:
-            net_arch = [256, 256]
-        else:
-            net_arch = [400, 300]
+        if net_arch is None:
+            if is_image:
+                net_arch = [256, 256]
+            else:
+                net_arch = [400, 300]
 
-    self.net_arch = net_arch
-    self.activation_fn = activation_fn
+        self.net_arch = net_arch
+        self.activation_fn = activation_fn
 
-    def build_mu(self):
-        actor_net = create_mlp(self.features_dim, self.action_dim, 
-                               self.net_arch, self.activation_fn, squash_output=True)
-        mu = nn.Sequential(*actor_net)
-        return mu
+        def build_mu(self):
+            actor_net = create_mlp(self.features_dim, self.action_dim, 
+                                self.net_arch, self.activation_fn, squash_output=True)
+            mu = nn.Sequential(*actor_net)
+            return mu
 
-    def forward(self, features: th.Tensor) -> th.Tensor:
-        return self.mu(features)
+        def forward(self, features: th.Tensor) -> th.Tensor:
+            return self.mu(features)
 
 
 class TD3Policy(BasePolicy):
