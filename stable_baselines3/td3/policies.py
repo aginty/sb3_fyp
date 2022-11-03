@@ -42,6 +42,7 @@ class BaseActor(BasePolicy, ABC):
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
         features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
+        squash_output: bool = True
     ):
         super().__init__(
             observation_space,
@@ -50,7 +51,7 @@ class BaseActor(BasePolicy, ABC):
             features_extractor_class=features_extractor_class,
             features_extractor_kwargs=feature_extractor_kwargs,
             normalize_images=normalize_images,
-            squash_output=True,
+            squash_output=True
         )
 
         self.features_dim = self.get_features_dim(self.observation_space)
