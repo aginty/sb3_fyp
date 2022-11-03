@@ -166,7 +166,7 @@ class TD3Policy(BasePolicy):
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
         lr_schedule: Schedule,
-        actor: BaseActor = None
+        actor: BaseActor = None,
         critic: BaseContinuousCritic = None,
         normalize_images: bool = True,
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
