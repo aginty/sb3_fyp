@@ -38,6 +38,8 @@ class BaseActor(BasePolicy, ABC):
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
         features_extractor: Optional[nn.Module] = None,
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
+        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
         features_dim: int,
         normalize_images: bool = True,
     ):
@@ -45,6 +47,8 @@ class BaseActor(BasePolicy, ABC):
             observation_space,
             action_space,
             features_extractor=features_extractor,
+            features_extractor_class=features_extractor_class,
+            feature_extractor_kwargs=feature_extractor_kwargs,
             normalize_images=normalize_images,
             squash_output=True,
         )
@@ -93,7 +97,9 @@ class MlpActor(BaseActor):
         features_dim: int,
         net_arch: List[int] = None,
         activation_fn: Type[nn.Module] = nn.ReLU,
-        feature_extractor: nn.Module = None,
+        features_extractor: Optional[nn.Module] = None,
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
+        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
         is_image: bool = False
     ):
@@ -101,7 +107,9 @@ class MlpActor(BaseActor):
     super().__init__(
         observation_space,
         action_space,
-        feature_extractor,
+        features_extractor=features_extractor,
+        features_extractor_class=features_extractor_class,
+        features_extractor_kwargs=features_extractor_kwargs,
         normalize_image = normalize_images,
         squash_output=True
     )
