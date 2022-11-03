@@ -79,12 +79,12 @@ class BaseActor(BasePolicy, ABC):
         return data
 
     @abstractmethod
-    def build_mu(self):
-        raise NotImplementedError
+    def build_mu(self) -> nn.Module:
+        """method for creating neural network function approximator"""
 
     @abstractmethod
     def forward(self, features: th.Tensor) -> th.Tensor:
-        raise NotImplementedError
+        """method to pass data through network"""
 
     def _predict(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
@@ -128,7 +128,7 @@ class MlpActor(BaseActor):
         self.net_arch = net_arch
         self.activation_fn = activation_fn
 
-        def build_mu(self):
+        def build_mu(self) -> nn.Module:
             actor_net = create_mlp(self.features_dim, self.action_dim, 
                                 self.net_arch, self.activation_fn, squash_output=True)
             mu = nn.Sequential(*actor_net)
