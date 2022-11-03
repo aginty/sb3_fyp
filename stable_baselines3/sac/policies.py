@@ -329,9 +329,10 @@ class SACPolicy(BasePolicy):
         actor_kwargs = self._update_features_extractor(self.actor_kwargs, features_extractor)
         return Actor(**actor_kwargs).to(self.device)
 
-    def make_critic(self, features_extractor: Optional[BaseFeaturesExtractor] = None) -> ContinuousCritic:
-        critic_kwargs = self._update_features_extractor(self.critic_kwargs, features_extractor)
-        return ContinuousCritic(**critic_kwargs).to(self.device)
+    def make_critic(self, features_extractor: Optional[BaseFeaturesExtractor] = None):# -> ContinuousCritic:
+        # critic_kwargs = self._update_features_extractor(self.critic_kwargs, features_extractor)
+        # return ContinuousCritic(**critic_kwargs).to(self.device)
+        pass
 
     def forward(self, obs: th.Tensor, deterministic: bool = False) -> th.Tensor:
         return self._predict(obs, deterministic=deterministic)
