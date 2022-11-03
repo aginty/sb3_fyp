@@ -834,7 +834,6 @@ class BaseContinuousCritic(BaseModel, ABC):
         self,
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
-        features_dim: int,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
         feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
@@ -851,7 +850,7 @@ class BaseContinuousCritic(BaseModel, ABC):
             normalize_images=normalize_images,
         )
 
-        self.features_dim = features_dim
+        self.features_dim = self.get_features_dim(self.observation_space)
         self.action_dim = get_action_dim(self.action_space)
 
         self.share_features_extractor = share_features_extractor
@@ -861,6 +860,12 @@ class BaseContinuousCritic(BaseModel, ABC):
             q_net = self.build_q_net()
             self.add_module(f"qf{idx}", q_net)
             self.q_networks.append(q_net)
+
+    def get_features_dim(self, obs_space):
+        if not self.has_feature_extractor():
+            self.features_dim = get_flattened_obs_dim(obs_space)
+        else:
+            self.features_dim = self.features_extractor.features_dim()
 
     @abstractmethod
     def build_q_net(self) -> nn.Module:
@@ -895,7 +900,6 @@ class MlpContinuousCritic(BaseContinuousCritic):
         self,
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
-        features_dim: int,
         net_arch: List[int] = None,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
