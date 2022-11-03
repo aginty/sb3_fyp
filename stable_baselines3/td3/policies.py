@@ -1,11 +1,12 @@
 from typing import Any, Dict, List, Optional, Type, Union
 from abc import ABC, abstractmethod
+import copy
 
 import gym
 import torch as th
 from torch import nn
 
-from stable_baselines3.common.policies import BasePolicy, ContinuousCritic
+from stable_baselines3.common.policies import BasePolicy, ContinuousCritic, MlpContinuousCritic
 from stable_baselines3.common.preprocessing import get_action_dim
 from stable_baselines3.common.torch_layers import (
     BaseFeaturesExtractor,
@@ -40,7 +41,6 @@ class BaseActor(BasePolicy, ABC):
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
         feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
-        features_dim: int,
         normalize_images: bool = True,
     ):
         super().__init__(
@@ -53,11 +53,17 @@ class BaseActor(BasePolicy, ABC):
             squash_output=True,
         )
 
-        self.features_dim = features_dim
+        self.features_dim = self.get_features_dim(self.observation_space)
         self.action_dim = get_action_dim(self.action_space)
         
         # Deterministic action
         self.mu = self.build_mu()
+
+    def get_features_dim(self, obs_space):
+        if not self.has_feature_extractor():
+            self.features_dim = get_flattened_obs_dim(obs_space)
+        else:
+            self.features_dim = self.features_extractor.features_dim()
 
     def _get_constructor_parameters(self) -> Dict[str, Any]:
         data = super()._get_constructor_parameters()
@@ -94,7 +100,6 @@ class MlpActor(BaseActor):
         self,
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
-        features_dim: int,
         net_arch: List[int] = None,
         activation_fn: Type[nn.Module] = nn.ReLU,
         features_extractor: Optional[nn.Module] = None,
@@ -161,87 +166,43 @@ class TD3Policy(BasePolicy):
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
         lr_schedule: Schedule,
-        net_arch: Optional[Union[List[int], Dict[str, List[int]]]] = None,
-        activation_fn: Type[nn.Module] = nn.ReLU,
-        features_extractor_class: Type[BaseFeaturesExtractor] = FlattenExtractor,
-        features_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        actor: BaseActor = None
+        critic: BaseContinuousCritic = None,
         normalize_images: bool = True,
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
-        n_critics: int = 2,
-        share_features_extractor: bool = False,
+        n_critics: int = 2
     ):
         super().__init__(
             observation_space,
             action_space,
-            features_extractor_class,
-            features_extractor_kwargs,
             optimizer_class=optimizer_class,
             optimizer_kwargs=optimizer_kwargs,
-            squash_output=True,
+            squash_output=True
         )
 
-        # Default network architecture, from the original paper
-        if net_arch is None:
-            if features_extractor_class == NatureCNN:
-                net_arch = [256, 256]
-            else:
-                net_arch = [400, 300]
+        if actor is None:
+            self.actor = MlpActor(observation_space, action_space)
+        else:
+            self.actor = actor
 
-        actor_arch, critic_arch = get_actor_critic_arch(net_arch)
-
-        self.net_arch = net_arch
-        self.activation_fn = activation_fn
-        self.net_args = {
-            "observation_space": self.observation_space,
-            "action_space": self.action_space,
-            "net_arch": actor_arch,
-            "activation_fn": self.activation_fn,
-            "normalize_images": normalize_images,
-        }
-        self.actor_kwargs = self.net_args.copy()
-        self.critic_kwargs = self.net_args.copy()
-        self.critic_kwargs.update(
-            {
-                "n_critics": n_critics,
-                "net_arch": critic_arch,
-                "share_features_extractor": share_features_extractor,
-            }
-        )
-
-        self.actor, self.actor_target = None, None
-        self.critic, self.critic_target = None, None
-        self.share_features_extractor = share_features_extractor
+        if critic is None:
+            self.critic = MlpContinuousCritic(observation_space, action_space)
+        else:
+            self.critic = critic
 
         self._build(lr_schedule)
 
     def _build(self, lr_schedule: Schedule) -> None:
-        # Create actor and target
-        # the features extractor should not be shared
-        self.actor = self.make_actor(features_extractor=None)
-        self.actor_target = self.make_actor(features_extractor=None)
-        # Initialize the target to have the same weights as the actor
+        self.actor_target = copy.deepcopy(actor)
         self.actor_target.load_state_dict(self.actor.state_dict())
 
+        self.critic_target = copy.deepcopy(critic)
+        self.critic_target.load_state_dict(self.actor.state_dict())
+        
         self.actor.optimizer = self.optimizer_class(self.actor.parameters(), lr=lr_schedule(1), **self.optimizer_kwargs)
-
-        if self.share_features_extractor:
-            self.critic = self.make_critic(features_extractor=self.actor.features_extractor)
-            # Critic target should not share the features extactor with critic
-            # but it can share it with the actor target as actor and critic are sharing
-            # the same features_extractor too
-            # NOTE: as a result the effective poliak (soft-copy) coefficient for the features extractor
-            # will be 2 * tau instead of tau (updated one time with the actor, a second time with the critic)
-            self.critic_target = self.make_critic(features_extractor=self.actor_target.features_extractor)
-        else:
-            # Create new features extractor for each network
-            self.critic = self.make_critic(features_extractor=None)
-            self.critic_target = self.make_critic(features_extractor=None)
-
-        self.critic_target.load_state_dict(self.critic.state_dict())
         self.critic.optimizer = self.optimizer_class(self.critic.parameters(), lr=lr_schedule(1), **self.optimizer_kwargs)
 
-        # Target networks should always be in eval mode
         self.actor_target.set_training_mode(False)
         self.critic_target.set_training_mode(False)
 
@@ -250,26 +211,15 @@ class TD3Policy(BasePolicy):
 
         data.update(
             dict(
-                net_arch=self.net_arch,
                 activation_fn=self.net_args["activation_fn"],
                 n_critics=self.critic_kwargs["n_critics"],
                 lr_schedule=self._dummy_schedule,  # dummy lr schedule, not needed for loading policy alone
                 optimizer_class=self.optimizer_class,
                 optimizer_kwargs=self.optimizer_kwargs,
-                features_extractor_class=self.features_extractor_class,
-                features_extractor_kwargs=self.features_extractor_kwargs,
-                share_features_extractor=self.share_features_extractor,
             )
         )
         return data
 
-    def make_actor(self, features_extractor: Optional[BaseFeaturesExtractor] = None) -> Actor:
-        actor_kwargs = self._update_features_extractor(self.actor_kwargs, features_extractor)
-        return Actor(**actor_kwargs).to(self.device)
-
-    def make_critic(self, features_extractor: Optional[BaseFeaturesExtractor] = None) -> ContinuousCritic:
-        critic_kwargs = self._update_features_extractor(self.critic_kwargs, features_extractor)
-        return ContinuousCritic(**critic_kwargs).to(self.device)
 
     def forward(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
         return self._predict(observation, deterministic=deterministic)
@@ -277,7 +227,7 @@ class TD3Policy(BasePolicy):
     def _predict(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
-        return self.actor(observation)
+        return self.actor._predict(observation)
 
     def set_training_mode(self, mode: bool) -> None:
         """
