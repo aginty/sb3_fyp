@@ -128,14 +128,14 @@ class MlpActor(BaseActor):
         self.net_arch = net_arch
         self.activation_fn = activation_fn
 
-        def build_mu(self) -> nn.Module:
-            actor_net = create_mlp(self.features_dim, self.action_dim, 
-                                self.net_arch, self.activation_fn, squash_output=True)
-            mu = nn.Sequential(*actor_net)
-            return mu
+    def build_mu(self) -> nn.Module:
+        actor_net = create_mlp(self.features_dim, self.action_dim, 
+                            self.net_arch, self.activation_fn, squash_output=True)
+        mu = nn.Sequential(*actor_net)
+        return mu
 
-        def forward(self, features: th.Tensor) -> th.Tensor:
-            return self.mu(features)
+    def forward(self, features: th.Tensor) -> th.Tensor:
+        return self.mu(features)
 
 
 class TD3Policy(BasePolicy):
