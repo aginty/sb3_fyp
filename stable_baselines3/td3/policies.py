@@ -75,7 +75,7 @@ class BaseActor(BasePolicy, ABC):
         )
         return data
     
-    @abstract_method
+    @abstractmethod
     def get_features_dim(self):
         """method for getting the feature dimension"""
 
