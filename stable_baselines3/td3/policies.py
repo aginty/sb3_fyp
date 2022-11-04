@@ -200,10 +200,10 @@ class TD3Policy(BasePolicy):
         self._build(lr_schedule)
 
     def _build(self, lr_schedule: Schedule) -> None:
-        self.actor_target = copy.deepcopy(actor)
+        self.actor_target = copy.deepcopy(self.actor)
         self.actor_target.load_state_dict(self.actor.state_dict())
 
-        self.critic_target = copy.deepcopy(critic)
+        self.critic_target = copy.deepcopy(self.critic)
         self.critic_target.load_state_dict(self.actor.state_dict())
         
         self.actor.optimizer = self.optimizer_class(self.actor.parameters(), lr=lr_schedule(1), **self.optimizer_kwargs)
