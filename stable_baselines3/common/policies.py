@@ -129,7 +129,7 @@ class BaseModel(nn.Module):
 
     def make_features_extractor(self) -> BaseFeaturesExtractor:
         """Helper method to create a features extractor."""
-        assert self.feature_extractor_class() is not None, "No feature extractor class was set"
+        assert self.features_extractor_class() is not None, "No feature extractor class was set"
         return self.features_extractor_class(self.observation_space, **self.features_extractor_kwargs)
 
     def extract_features(self, obs: th.Tensor) -> th.Tensor:
