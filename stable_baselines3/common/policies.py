@@ -96,10 +96,13 @@ class BaseModel(nn.Module):
         self.features_extractor_class = features_extractor_class
         self.features_extractor_kwargs = features_extractor_kwargs
 
+        if self.features_extractor is None and self.features_extractor_class is not None:
+            self.features_extractor = self.make_features_extractor()
+
     def has_feature_extractor(self) -> bool:
-        if self.features_extractor is None and self.features_extractor_class is None:
-            return False
-        return True
+        if self.features_extractor is not None:
+            return True
+        return False
 
     def _update_features_extractor(
         self,
@@ -126,7 +129,7 @@ class BaseModel(nn.Module):
 
     def make_features_extractor(self) -> BaseFeaturesExtractor:
         """Helper method to create a features extractor."""
-        assert self.has_feature_extractor(), "No feature extractor class was set"
+        assert self.feature_extractor_class() is not None, "No feature extractor class was set"
         return self.features_extractor_class(self.observation_space, **self.features_extractor_kwargs)
 
     def extract_features(self, obs: th.Tensor) -> th.Tensor:
