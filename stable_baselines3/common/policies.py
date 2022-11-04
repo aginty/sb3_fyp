@@ -913,7 +913,7 @@ class MlpContinuousCritic(BaseContinuousCritic):
         activation_fn: Optional[nn.Module] = nn.ReLU,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
-        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
         n_critics: int = 2,
         share_features_extractor: bool = True,
