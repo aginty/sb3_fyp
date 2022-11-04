@@ -54,18 +54,11 @@ class BaseActor(BasePolicy, ABC):
             squash_output=True
         )
 
-        self.features_dim = self.get_features_dim(self.observation_space)
+        self.features_dim = self.get_features_dim()
         self.action_dim = get_action_dim(self.action_space)
         
         # Deterministic action
         self.mu = self.build_mu()
-
-    def get_features_dim(self, obs_space):
-        # if not self.has_feature_extractor():
-        self.features_dim = get_flattened_obs_dim(obs_space)
-        # else:
-        #     print(type(self.features_extractor))
-        #     self.features_dim = self.features_extractor.features_dim()
 
     def _get_constructor_parameters(self) -> Dict[str, Any]:
         data = super()._get_constructor_parameters()
@@ -81,6 +74,10 @@ class BaseActor(BasePolicy, ABC):
             )
         )
         return data
+    
+    @abstract_method
+    def get_features_dim(self):
+        """method for getting the feature dimension"""
 
     @abstractmethod
     def build_mu(self) -> nn.Module:
@@ -133,8 +130,12 @@ class MlpActor(BaseActor):
         )
 
 
+    def get_features_dim(self):
+        return get_flattened_obs_dim(self.observation_space)
+        
 
     def build_mu(self) -> nn.Module:
+        print("features dim is", self.features_dim)
         actor_net = create_mlp(self.features_dim, self.action_dim, self.net_arch, self.activation_fn, squash_output=True)
         mu = nn.Sequential(*actor_net)
         return mu
