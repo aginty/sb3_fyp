@@ -61,10 +61,11 @@ class BaseActor(BasePolicy, ABC):
         self.mu = self.build_mu()
 
     def get_features_dim(self, obs_space):
-        if not self.has_feature_extractor():
-            self.features_dim = get_obs_shape(obs_space)
-        else:
-            self.features_dim = self.features_extractor.features_dim()
+        # if not self.has_feature_extractor():
+        self.features_dim = get_flattened_obs_dim(obs_space)
+        # else:
+        #     print(type(self.features_extractor))
+        #     self.features_dim = self.features_extractor.features_dim()
 
     def _get_constructor_parameters(self) -> Dict[str, Any]:
         data = super()._get_constructor_parameters()
