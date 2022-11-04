@@ -934,7 +934,7 @@ class MlpContinuousCritic(BaseContinuousCritic):
             features_extractor,
             features_extractor_class,
             features_extractor_kwargs,
-            noramlize_images=noramlize_images,
+            noramlize_images=True,
             squash_output=True
         )
 
