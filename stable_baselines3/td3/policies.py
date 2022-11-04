@@ -7,7 +7,7 @@ import torch as th
 from torch import nn
 
 from stable_baselines3.common.policies import BasePolicy, BaseContinuousCritic, MlpContinuousCritic
-from stable_baselines3.common.preprocessing import get_action_dim, get_flattened_obs_dim
+from stable_baselines3.common.preprocessing import get_action_dim, get_flattened_obs_dim, get_obs_shape
 from stable_baselines3.common.torch_layers import (
     BaseFeaturesExtractor,
     CombinedExtractor,
@@ -62,7 +62,7 @@ class BaseActor(BasePolicy, ABC):
 
     def get_features_dim(self, obs_space):
         if not self.has_feature_extractor():
-            self.features_dim = get_flattened_obs_dim(obs_space)
+            self.features_dim = get_obs_shape(obs_space)
         else:
             self.features_dim = self.features_extractor.features_dim()
 
