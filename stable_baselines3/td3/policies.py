@@ -133,8 +133,7 @@ class MlpActor(BaseActor):
         self.activation_fn = activation_fn
 
     def build_mu(self) -> nn.Module:
-        actor_net = create_mlp(self.features_dim, self.action_dim, 
-                            self.net_arch, self.activation_fn, squash_output=True)
+        actor_net = create_mlp(self.features_dim, self.action_dim, self.net_arch, self.activation_fn, squash_output=True)
         mu = nn.Sequential(*actor_net)
         return mu
 
