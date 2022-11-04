@@ -910,6 +910,7 @@ class MlpContinuousCritic(BaseContinuousCritic):
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
         net_arch: List[int] = None,
+        activation_fn: Optional[nn.Module] = nn.ReLU,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
         feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
