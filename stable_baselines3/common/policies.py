@@ -96,7 +96,7 @@ class BaseModel(nn.Module):
         self.features_extractor_class = features_extractor_class
         self.features_extractor_kwargs = features_extractor_kwargs
 
-        if self.features_extractor is None and self.features_extractor_class is not None:
+        if features_extractor is None and self.features_extractor_class is not None:
             self.features_extractor = self.make_features_extractor()
 
     def has_feature_extractor(self) -> bool:
