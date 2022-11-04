@@ -845,7 +845,7 @@ class BaseContinuousCritic(BaseModel, ABC):
         action_space: gym.spaces.Space,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
-        feature_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
         n_critics: int = 2,
         share_features_extractor: bool = True,
@@ -855,7 +855,7 @@ class BaseContinuousCritic(BaseModel, ABC):
             action_space,
             features_extractor=features_extractor,
             features_extractor_class=features_extractor_class,
-            feature_extractor_kwargs=feature_extractor_kwargs,
+            features_extractor_kwargs=features_extractor_kwargs,
             normalize_images=normalize_images,
         )
 
