@@ -104,7 +104,7 @@ class MlpActor(BaseActor):
         self,
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
-        net_arch: List[int] = None,
+        net_arch: Optional[List[int]] = None,
         activation_fn: Type[nn.Module] = nn.ReLU,
         features_extractor: Optional[nn.Module] = None,
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
@@ -112,6 +112,15 @@ class MlpActor(BaseActor):
         normalize_images: bool = True,
         is_image: bool = False
     ):
+
+        if net_arch is None:
+            if is_image:
+                net_arch = [256, 256]
+            else:
+                net_arch = [400, 300]
+
+        self.net_arch = net_arch
+        self.activation_fn = activation_fn
 
         super().__init__(
             observation_space,
@@ -123,14 +132,7 @@ class MlpActor(BaseActor):
             squash_output=True
         )
 
-        if net_arch is None:
-            if is_image:
-                net_arch = [256, 256]
-            else:
-                net_arch = [400, 300]
 
-        self.net_arch = net_arch
-        self.activation_fn = activation_fn
 
     def build_mu(self) -> nn.Module:
         actor_net = create_mlp(self.features_dim, self.action_dim, self.net_arch, self.activation_fn, squash_output=True)
