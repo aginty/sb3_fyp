@@ -859,7 +859,7 @@ class BaseContinuousCritic(BaseModel, ABC):
             normalize_images=normalize_images,
         )
 
-        self.features_dim = self.get_features_dim(self.observation_space)
+        self.features_dim = self.get_features_dim()
         self.action_dim = get_action_dim(self.action_space)
 
         self.share_features_extractor = share_features_extractor
@@ -870,15 +870,19 @@ class BaseContinuousCritic(BaseModel, ABC):
             self.add_module(f"qf{idx}", q_net)
             self.q_networks.append(q_net)
 
-    def get_features_dim(self, obs_space):
-        if not self.has_feature_extractor():
-            self.features_dim = get_flattened_obs_dim(obs_space)
-        else:
-            self.features_dim = self.features_extractor.features_dim()
+    # def get_features_dim(self, obs_space):
+    #     if not self.has_feature_extractor():
+    #         self.features_dim = get_flattened_obs_dim(obs_space)
+    #     else:
+    #         self.features_dim = self.features_extractor.features_dim()
+
+    @abstractmethod
+    def get_features_dim(self):
+        """get features dimension"""
 
     @abstractmethod
     def build_q_net(self) -> nn.Module:
-        raise NotImplementedError
+        """Build neural network function approximator for q-value function"""
 
     def forward(self, obs: th.Tensor, actions: th.Tensor) -> Tuple[th.Tensor, ...]:
         # Learn the features extractor using the policy loss only
@@ -937,7 +941,8 @@ class MlpContinuousCritic(BaseContinuousCritic):
             normalize_images=True
         )
 
-
+    def get_features_dim(self):
+        return get_flattened_obs_dim(self.observation_space)
 
     def build_q_net(self) -> nn.Module:
         q = create_mlp(self.features_dim, self.action_dim, self.net_arch,
