@@ -94,7 +94,7 @@ class BaseActor(BasePolicy, ABC):
             features = self.extract_features(observation)
         else:
             features = observation
-        return self(observation)
+        return self(features) #change back to predict if this causes error
 
 class MlpActor(BaseActor):
     def __init__(
@@ -128,6 +128,62 @@ class MlpActor(BaseActor):
             normalize_images= normalize_images,
             squash_output=True
         )
+
+
+    def get_features_dim(self):
+        return get_flattened_obs_dim(self.observation_space)
+        
+
+    def build_mu(self) -> nn.Module:
+        print("features dim is", self.features_dim)
+        actor_net = create_mlp(self.features_dim, self.action_dim, self.net_arch, self.activation_fn, squash_output=True)
+        mu = nn.Sequential(*actor_net)
+        return mu
+
+    def forward(self, features: th.Tensor) -> th.Tensor:
+        return self.mu(features)
+
+
+class CNNActor(BaseActor):
+    def __init__(
+        self,
+        observation_space: gym.spaces.Space,
+        action_space: gym.spaces.Space,
+        net_arch: Optional[List[int]] = None,
+        activation_fn: Type[nn.Module] = nn.ReLU,
+        features_extractor: Optional[nn.Module] = None,
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
+        features_extractor_kwargs: Optional[Dict[str, Any]] = None,
+        normalize_images: bool = True,
+        is_image: bool = False
+    ):
+
+        # if net_arch is None:
+        #     if is_image:
+        #         net_arch = [256, 256]
+        #     else:
+        #         net_arch = [400, 300]
+
+        # self.net_arch = net_arch
+        self.activation_fn = activation_fn
+
+        super().__init__(
+            observation_space,
+            action_space,
+            features_extractor=features_extractor,
+            features_extractor_class=features_extractor_class,
+            features_extractor_kwargs=features_extractor_kwargs,
+            normalize_images= normalize_images,
+            squash_output=True
+        )
+
+    #need to override this method defined in superclass BaseActor
+    def _predict(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
+        # Note: the deterministic deterministic parameter is ignored in the case of TD3.
+        #   Predictions are always deterministic.
+        features = observation[0] #observation = state: st = [bt, cpt, ht, It]
+        return self(features)
+
 
 
     def get_features_dim(self):
