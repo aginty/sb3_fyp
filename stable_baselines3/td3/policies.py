@@ -131,7 +131,7 @@ class MlpActor(BaseActor):
 
 
     def get_features_dim(self):
-        return get_flattened_obs_dim(self.observation_space)
+        return get_flattened_obs_dim(self.observation_space) #observation_space = spaces.Box(-inf, +inf, shape=(self.state_space,))
         
 
     def build_mu(self) -> nn.Module:
@@ -181,20 +181,20 @@ class CNNActor(BaseActor):
     def _predict(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
-        features = observation[0] #observation = state: st = [bt, cpt, ht, It]
+        features = observation[0] #observation = state: st = [bt, cpt, ht, I], observation[0] = I
         return self(features)
 
-
-
     def get_features_dim(self):
-        return get_flattened_obs_dim(self.observation_space)
+        """
+        features dim is the dimension of the technical indicators (num indicators + num days d)
+        """
+        #return self.observation_space.shape #Box
         
-
     def build_mu(self) -> nn.Module:
-        print("features dim is", self.features_dim)
         actor_net = create_mlp(self.features_dim, self.action_dim, self.net_arch, self.activation_fn, squash_output=True)
         mu = nn.Sequential(*actor_net)
         return mu
+
 
     def forward(self, features: th.Tensor) -> th.Tensor:
         return self.mu(features)
