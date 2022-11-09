@@ -870,12 +870,6 @@ class BaseContinuousCritic(BaseModel, ABC):
             self.add_module(f"qf{idx}", q_net)
             self.q_networks.append(q_net)
 
-    # def get_features_dim(self, obs_space):
-    #     if not self.has_feature_extractor():
-    #         self.features_dim = get_flattened_obs_dim(obs_space)
-    #     else:
-    #         self.features_dim = self.features_extractor.features_dim()
-
     @abstractmethod
     def get_features_dim(self):
         """get features dimension"""
@@ -945,7 +939,7 @@ class MlpContinuousCritic(BaseContinuousCritic):
         return get_flattened_obs_dim(self.observation_space)
 
     def build_q_net(self) -> nn.Module:
-        q = create_mlp(self.features_dim, self.action_dim, self.net_arch,
+        q = create_mlp(self.features_dim + self.action_dim, 1, self.net_arch,
                     self.activation_fn, squash_output=True)
         q_net = nn.Sequential(*q)
         return q_net
