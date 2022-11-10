@@ -144,6 +144,8 @@ class MlpActor(BaseActor):
         return self.mu(features)
 
 
+from torch.nn import Module, Conv2d, Linear, MaxPool2d, ReLU, LogSoftmax, flatten
+
 class CNNActor(BaseActor):
     def __init__(
         self,
@@ -158,13 +160,6 @@ class CNNActor(BaseActor):
         is_image: bool = False
     ):
 
-        # if net_arch is None:
-        #     if is_image:
-        #         net_arch = [256, 256]
-        #     else:
-        #         net_arch = [400, 300]
-
-        # self.net_arch = net_arch
         self.activation_fn = activation_fn
 
         super().__init__(
@@ -189,11 +184,19 @@ class CNNActor(BaseActor):
         features dim is the dimension of the technical indicators (num indicators + num days d)
         """
         #return self.observation_space.shape #Box
-        
+    
+    #CNN: 4 layers, 16 filters, 0 pool layers
     def build_mu(self) -> nn.Module:
-        actor_net = create_mlp(self.features_dim, self.action_dim, self.net_arch, self.activation_fn, squash_output=True)
-        mu = nn.Sequential(*actor_net)
+        """
+        actor_net = []
+        conv1 = Conv2d(input_size="?", output_size="?", kernel_size="?")
+        ...
+        actor_net.append(conv1)
+        ...
+        mu = nn.Sequential(actor_net)
+
         return mu
+        """
 
 
     def forward(self, features: th.Tensor) -> th.Tensor:
