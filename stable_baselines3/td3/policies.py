@@ -144,7 +144,8 @@ class MlpActor(BaseActor):
         return self.mu(features)
 
 
-from torch.nn import Module, Conv2d, Linear, MaxPool2d, ReLU, LogSoftmax, flatten
+from torch.nn import Module, Conv2d, Linear, MaxPool2d, ReLU, LogSoftmax
+from torch import flatten
 
 class CNNActor(BaseActor):
     def __init__(
