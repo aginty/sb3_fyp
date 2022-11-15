@@ -244,8 +244,8 @@ class TD3Policy(BasePolicy):
         observation_space: gym.spaces.Space,
         action_space: gym.spaces.Space,
         lr_schedule: Schedule,
-        actor: BaseActor = None,
-        critic: BaseContinuousCritic = None,
+        Actor: Optional[Type[BaseActor]] = MlpActor,
+        Critic: Optional[Type[BaseContinuousCritic]] = MlpContinuousCritic,
         normalize_images: bool = True,
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
@@ -259,15 +259,18 @@ class TD3Policy(BasePolicy):
             squash_output=True
         )
 
-        if actor is None:
-            self.actor = MlpActor(observation_space, action_space)
-        else:
-            self.actor = actor
+        self.actor = Actor(observation_space, action_space)
+        self.critic = Critic(observation_space, action_space)
 
-        if critic is None:
-            self.critic = MlpContinuousCritic(observation_space, action_space)
-        else:
-            self.critic = critic
+        # if actor is None:
+        #     self.actor = MlpActor(observation_space, action_space)
+        # else:
+        #     self.actor = actor
+
+        # if critic is None:
+        #     self.critic = MlpContinuousCritic(observation_space, action_space)
+        # else:
+        #     self.critic = critic
 
         self._build(lr_schedule)
 
