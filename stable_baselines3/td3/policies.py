@@ -144,7 +144,7 @@ class MlpActor(BaseActor):
         return self.mu(features)
 
 
-from torch.nn import Module, Conv2d, Linear, MaxPool2d, ReLU, LogSoftmax
+from torch.nn import Module, Conv2d, Conv1d, Linear, MaxPool2d, ReLU, LogSoftmax, Dropout, Flatten, Tanh, Sequential
 from torch import flatten
 
 class CNNActor(BaseActor):
@@ -184,20 +184,32 @@ class CNNActor(BaseActor):
         """
         features dim is the dimension of the technical indicators (num indicators + num days d)
         """
+        return 15 #num_historic days -> don't think this will actually be used
         #return self.observation_space.shape #Box
     
     #CNN: 4 layers, 16 filters, 0 pool layers
     def build_mu(self) -> nn.Module:
-        """
+        #CNN for 1 dimensional time series 
         actor_net = []
-        conv1 = Conv2d(input_size="?", output_size="?", kernel_size="?")
-        ...
-        actor_net.append(conv1)
-        ...
+        actor_net.append(Conv1d(input_size=1, output_size=16, kernel_size=3)) #input size=num channels, output_size=num feature maps=num filters
+        actor_net.append(ReLU())
+        actor_net.append(Dropout(p=0.5))
+        actor_net.append(Conv1d(input_size=16, output_size=16, kernel_size=3))
+        actor_net.append(ReLU())
+        actor_net.append(Dropout(p=0.5))
+        actor_net.append(Flatten())
+        actor_net.append()
+
+        actor_net.append(Linear(16, 400))
+        actor_net.append(ReLU())
+        actor_net.append(Linear(400, 300))
+        actor_net.append(ReLU())
+        actor_net.append(Linear(300, 1)) #single action - single stock trading
+        actor_net.append(Tanh())
+
         mu = nn.Sequential(actor_net)
 
         return mu
-        """
 
 
     def forward(self, features: th.Tensor) -> th.Tensor:
