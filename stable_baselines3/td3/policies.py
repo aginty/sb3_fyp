@@ -206,7 +206,33 @@ class CNNActor(BaseActor):
         actor_net.append(Linear(300, 1)) #single action - single stock trading
         actor_net.append(Tanh())
 
+        """
         mu = nn.Sequential(*actor_net)
+
+
+                mu = nn.Sequential(
+          Conv1d(in_channels=1, out_channels=16, kernel_size=3),
+          ReLU(),
+          Dropout(p=0.5),
+          Conv1d(in_channels=16, out_channels=16, kernel_size=3),
+          ReLU(),
+          Flatten(0, -1), #output of this has size [16,11]
+          Linear(176, 400),
+          ReLU(),
+          Linear(400, 300),
+          ReLU(),
+          Linear(300, 1), #single action - single stock trading
+          Tanh()
+        )
+
+        # mu = nn.Sequential(*actor_net)
+
+        # with th.no_grad():
+        #     n_flatten = mu(th.as_tensor(self.observation_space.sample()[None]).float()).shape[1]
+        #     print(n_flatten)
+        """
+        #starts to go wrong once batch size goes to 100
+        #Flatten parameters are the axis. Should be 1 to -1 if 0 is batch size else 0 to -1
 
         return mu
 
