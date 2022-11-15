@@ -155,7 +155,7 @@ class CNNActor(BaseActor):
         net_arch: Optional[List[int]] = None,
         activation_fn: Type[nn.Module] = nn.ReLU,
         features_extractor: Optional[nn.Module] = None,
-        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = FlattenExtractor,
+        features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
         features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
         is_image: bool = False
@@ -177,7 +177,7 @@ class CNNActor(BaseActor):
     def _predict(self, observation: th.Tensor, deterministic: bool = False) -> th.Tensor:
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
-        features = observation[0] #observation = state: st = [bt, cpt, ht, I], observation[0] = I
+        # features = observation[0] #observation = state: st = [bt, cpt, ht, I], observation[0] = I
         return self(features)
 
     def get_features_dim(self):
