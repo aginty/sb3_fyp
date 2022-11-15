@@ -12,7 +12,7 @@ import numpy as np
 VecEnvIndices = Union[None, int, Iterable[int]]
 # VecEnvObs is what is returned by the reset() method
 # it contains the observation for each env
-VecEnvObs = Union[np.ndarray, Dict[str, np.ndarray], Tuple[np.ndarray, ...]]
+VecEnvObs = Union[np.ndarray, Dict[str, np.ndarray], Tuple[np.ndarray, ...]] #return one of multiple types
 # VecEnvStepReturn is what is returned by the step() method
 # it contains the observation, reward, done, info for each env
 VecEnvStepReturn = Tuple[VecEnvObs, np.ndarray, np.ndarray, List[Dict]]

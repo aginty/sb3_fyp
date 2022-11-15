@@ -191,14 +191,13 @@ class CNNActor(BaseActor):
     def build_mu(self) -> nn.Module:
         #CNN for 1 dimensional time series 
         actor_net = []
-        actor_net.append(Conv1d(input_size=1, output_size=16, kernel_size=3)) #input size=num channels, output_size=num feature maps=num filters
+        actor_net.append(Conv1d(in_channels=1, out_channels=16, kernel_size=3)) #input size=num channels, output_size=num feature maps=num filters
         actor_net.append(ReLU())
         actor_net.append(Dropout(p=0.5))
-        actor_net.append(Conv1d(input_size=16, output_size=16, kernel_size=3))
+        actor_net.append(Conv1d(in_channels=16, out_channels=16, kernel_size=3))
         actor_net.append(ReLU())
         actor_net.append(Dropout(p=0.5))
         actor_net.append(Flatten())
-        actor_net.append()
 
         actor_net.append(Linear(16, 400))
         actor_net.append(ReLU())
@@ -207,7 +206,7 @@ class CNNActor(BaseActor):
         actor_net.append(Linear(300, 1)) #single action - single stock trading
         actor_net.append(Tanh())
 
-        mu = nn.Sequential(actor_net)
+        mu = nn.Sequential(*actor_net)
 
         return mu
 
