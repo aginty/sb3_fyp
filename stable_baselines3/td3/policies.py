@@ -178,7 +178,7 @@ class CNNActor(BaseActor):
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
         # features = observation[0] #observation = state: st = [bt, cpt, ht, I], observation[0] = I
-        return self(features)
+        return self(observation)
 
     def get_features_dim(self):
         """
