@@ -199,7 +199,7 @@ class CNNActor(BaseActor):
         actor_net.append(Dropout(p=0.5))
         actor_net.append(Flatten())
 
-        actor_net.append(Linear(16, 400))
+        actor_net.append(Linear(11, 400))
         actor_net.append(ReLU())
         actor_net.append(Linear(400, 300))
         actor_net.append(ReLU())
