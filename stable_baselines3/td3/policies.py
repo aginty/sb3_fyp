@@ -306,7 +306,7 @@ class TD3Policy(BasePolicy):
             squash_output=True
         )
 
-        if isinstance(Actor, CNNActor)
+        if isinstance(Actor, CNNActor):
             self.actor = Actor(observation_space, action_space, kernel_size=kernel_size)
         else:
             self.actor = Actor(observation_space, action_space)
