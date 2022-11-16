@@ -299,8 +299,8 @@ class ReplayBuffer(BaseBuffer):
         if self.optimize_memory_usage:
             next_obs = self._normalize_obs(self.observations[(batch_inds + 1) % self.buffer_size, env_indices, :], env)
         else:
-            # next_obs = self._normalize_obs(self.next_observations[batch_inds, env_indices, :], env)
-            next_obs = self._normalize_obs(self.next_observations[batch_inds, :], env) #make the output 3D instead of 2D
+            next_obs = self._normalize_obs(self.next_observations[batch_inds, env_indices, :], env)
+            # next_obs = self._normalize_obs(self.next_observations[batch_inds, :], env) #make the output 3D instead of 2D
             #(batch_size, 1, 15) instead of (batch_size,15)
 
         data = (
