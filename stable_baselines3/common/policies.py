@@ -945,7 +945,7 @@ class MlpContinuousCritic(BaseContinuousCritic):
         return q_net
 
 
-
+from torch.nn import Module, Conv2d, Conv1d, Linear, MaxPool2d, ReLU, LogSoftmax, Dropout, Flatten, Tanh, Sequential
 class CNNContinuousCritic(BaseContinuousCritic):
     def __init__(
         self,
