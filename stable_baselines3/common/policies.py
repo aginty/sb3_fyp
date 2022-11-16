@@ -984,4 +984,4 @@ class CNNContinuousCritic(BaseContinuousCritic):
           Tanh()
         )
 
-        return q
+        return q_net
