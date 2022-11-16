@@ -6,7 +6,7 @@ import gym
 import torch as th
 from torch import nn
 
-from stable_baselines3.common.policies import BasePolicy, BaseContinuousCritic, MlpContinuousCritic
+from stable_baselines3.common.policies import BasePolicy, BaseContinuousCritic, MlpContinuousCritic, CNNContinuousCritic
 from stable_baselines3.common.preprocessing import get_action_dim, get_flattened_obs_dim, get_obs_shape
 from stable_baselines3.common.torch_layers import (
     BaseFeaturesExtractor,

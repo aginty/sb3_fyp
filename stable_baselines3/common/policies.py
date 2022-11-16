@@ -943,3 +943,45 @@ class MlpContinuousCritic(BaseContinuousCritic):
                     self.activation_fn, squash_output=True)
         q_net = nn.Sequential(*q)
         return q_net
+
+
+
+class CNNContinuousCritic(BaseContinuousCritic):
+    def __init__(
+        self,
+        observation_space: gym.spaces.Space,
+        action_space: gym.spaces.Space,
+        n_critics: int = 2,
+        is_image: bool = False
+    ):
+
+        super().__init__(
+            observation_space,
+            action_space,
+            features_extractor = None,
+            features_extractor_class = None,
+            features_extractor_kwargs = None,
+            normalize_images=True
+        )
+
+    def get_features_dim(self):
+        pass
+
+    def build_q_net(self) -> nn.Module:
+
+        q_net = nn.Sequential(
+          Conv1d(in_channels=1, out_channels=16, kernel_size=3),
+          ReLU(),
+          Dropout(p=0.5),
+          Conv1d(in_channels=16, out_channels=16, kernel_size=3),
+          ReLU(),
+          Flatten(1, -1), #output of this has size [16,11]
+          Linear(176, 400),
+          ReLU(),
+          Linear(400, 300),
+          ReLU(),
+          Linear(300, 1), #single q-value - single stock trading
+          Tanh()
+        )
+
+        return q
