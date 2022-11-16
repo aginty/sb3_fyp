@@ -227,17 +227,38 @@ class CNNActor(BaseActor):
         #   Tanh()
         # )
 
+        # mu = nn.Sequential(
+        #   Conv1d(in_channels=1, out_channels=64, kernel_size=self.kernel_size), #output [1,64,13]
+        #   ReLU(), #output [1,64,13]
+        #   Conv1d(in_channels=64, out_channels=64, kernel_size=self.kernel_size),
+        #   ReLU(),
+        #   Dropout(p=0.5),
+        #   # MaxPool1d()
+        #   # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
+        #   # ReLU(),
+        #   Flatten(1, -1),#,#, #output of this has size [16,11]
+        #   Linear(704, 100), #14 days - 208
+        #   ReLU(),
+        #   # # Linear(400, 300),
+        #   # ReLU(),
+        #   Linear(100, 1), #single action - single stock trading
+        #   ReLU(),
+        #   Tanh()
+        # )
+
         mu = nn.Sequential(
           Conv1d(in_channels=1, out_channels=64, kernel_size=self.kernel_size), #output [1,64,13]
           ReLU(), #output [1,64,13]
+          MaxPool1d(kernel_size=self.kernel_size),
+          Dropout(p=0.5),
           Conv1d(in_channels=64, out_channels=64, kernel_size=self.kernel_size),
           ReLU(),
           Dropout(p=0.5),
-          # MaxPool1d()
+          MaxPool1d(kernel_size=self.kernel_size),
           # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
           # ReLU(),
           Flatten(1, -1),#,#, #output of this has size [16,11]
-          Linear(704, 100), #14 days - 208
+          Linear(128, 100), #14 days - 208
           ReLU(),
           # # Linear(400, 300),
           # ReLU(),
