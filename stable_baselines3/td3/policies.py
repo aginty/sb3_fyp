@@ -213,14 +213,14 @@ class CNNActor(BaseActor):
         mu = nn.Sequential(
           Conv1d(in_channels=1, out_channels=16, kernel_size=3),
           ReLU(),
-          Dropout(p=0.5),
-          Conv1d(in_channels=16, out_channels=16, kernel_size=3),
+          # Dropout(p=0.5),
+          # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
+          # ReLU(),
+          Flatten(1, -1),#, #output of this has size [16,11]
+          Linear(208, 300),
           ReLU(),
-          Flatten(1, -1), #output of this has size [16,11]
-          Linear(176, 400),
-          ReLU(),
-          Linear(400, 300),
-          ReLU(),
+          # # Linear(400, 300),
+          # ReLU(),
           Linear(300, 1), #single action - single stock trading
           Tanh()
         )
