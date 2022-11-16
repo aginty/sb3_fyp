@@ -158,10 +158,12 @@ class CNNActor(BaseActor):
         features_extractor_class: Optional[Type[BaseFeaturesExtractor]] = None,
         features_extractor_kwargs: Optional[Dict[str, Any]] = None,
         normalize_images: bool = True,
-        is_image: bool = False
+        is_image: bool = False,
+        kernel_size: int = 3
     ):
 
         self.activation_fn = activation_fn
+        self.kernel_size = kernel_size
 
         super().__init__(
             observation_space,
@@ -210,18 +212,37 @@ class CNNActor(BaseActor):
         # mu = nn.Sequential(*actor_net)
 
 
+        # mu = nn.Sequential(
+        #   Conv1d(in_channels=1, out_channels=16, kernel_size=self.kernel_size),
+        #   ReLU(),
+        #   # Dropout(p=0.5),
+        #   # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
+        #   # ReLU(),
+        #   Flatten(1, -1),#, #output of this has size [16,11]
+        #   Linear(208, 300),
+        #   ReLU(),
+        #   # # Linear(400, 300),
+        #   # ReLU(),
+        #   Linear(300, 1), #single action - single stock trading
+        #   Tanh()
+        # )
+
         mu = nn.Sequential(
-          Conv1d(in_channels=1, out_channels=16, kernel_size=3),
+          Conv1d(in_channels=1, out_channels=64, kernel_size=self.kernel_size), #output [1,64,13]
+          ReLU(), #output [1,64,13]
+          Conv1d(in_channels=64, out_channels=64, kernel_size=self.kernel_size),
           ReLU(),
-          # Dropout(p=0.5),
+          Dropout(p=0.5),
+          # MaxPool1d()
           # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
           # ReLU(),
-          Flatten(1, -1),#, #output of this has size [16,11]
-          Linear(208, 300),
+          Flatten(1, -1),#,#, #output of this has size [16,11]
+          Linear(704, 100), #14 days - 208
           ReLU(),
           # # Linear(400, 300),
           # ReLU(),
-          Linear(300, 1), #single action - single stock trading
+          Linear(100, 1), #single action - single stock trading
+          ReLU(),
           Tanh()
         )
 
@@ -274,7 +295,8 @@ class TD3Policy(BasePolicy):
         normalize_images: bool = True,
         optimizer_class: Type[th.optim.Optimizer] = th.optim.Adam,
         optimizer_kwargs: Optional[Dict[str, Any]] = None,
-        n_critics: int = 2
+        n_critics: int = 2,
+        kernel_size: int = 3
     ):
         super().__init__(
             observation_space,
@@ -284,7 +306,10 @@ class TD3Policy(BasePolicy):
             squash_output=True
         )
 
-        self.actor = Actor(observation_space, action_space)
+        if isinstance(Actor, CNNActor)
+            self.actor = Actor(observation_space, action_space, kernel_size=kernel_size)
+        else:
+            self.actor = Actor(observation_space, action_space)
         self.critic = Critic(observation_space, action_space)
 
         # if actor is None:
