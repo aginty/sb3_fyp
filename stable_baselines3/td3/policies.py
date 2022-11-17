@@ -191,90 +191,25 @@ class CNNActor(BaseActor):
     
     #CNN: 4 layers, 16 filters, 0 pool layers
     def build_mu(self) -> nn.Module:
-        #CNN for 1 dimensional time series 
-        # actor_net = []
-        # actor_net.append(Conv1d(in_channels=1, out_channels=16, kernel_size=3)) #input size=num channels, output_size=num feature maps=num filters
-        # actor_net.append(ReLU())
-        # actor_net.append(Dropout(p=0.5))
-        # actor_net.append(Conv1d(in_channels=16, out_channels=16, kernel_size=3))
-        # actor_net.append(ReLU())
-        # actor_net.append(Dropout(p=0.5))
-        # actor_net.append(Flatten())
-
-        # actor_net.append(Linear(11, 400))
-        # actor_net.append(ReLU())
-        # actor_net.append(Linear(400, 300))
-        # actor_net.append(ReLU())
-        # actor_net.append(Linear(300, 1)) #single action - single stock trading
-        # actor_net.append(Tanh())
-
-    
-        # mu = nn.Sequential(*actor_net)
-
-
-        # mu = nn.Sequential(
-        #   Conv1d(in_channels=1, out_channels=16, kernel_size=self.kernel_size),
-        #   ReLU(),
-        #   # Dropout(p=0.5),
-        #   # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
-        #   # ReLU(),
-        #   Flatten(1, -1),#, #output of this has size [16,11]
-        #   Linear(208, 300),
-        #   ReLU(),
-        #   # # Linear(400, 300),
-        #   # ReLU(),
-        #   Linear(300, 1), #single action - single stock trading
-        #   Tanh()
-        # )
-
-        # mu = nn.Sequential(
-        #   Conv1d(in_channels=1, out_channels=64, kernel_size=self.kernel_size), #output [1,64,13]
-        #   ReLU(), #output [1,64,13]
-        #   Conv1d(in_channels=64, out_channels=64, kernel_size=self.kernel_size),
-        #   ReLU(),
-        #   Dropout(p=0.5),
-        #   # MaxPool1d()
-        #   # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
-        #   # ReLU(),
-        #   Flatten(1, -1),#,#, #output of this has size [16,11]
-        #   Linear(704, 100), #14 days - 208
-        #   ReLU(),
-        #   # # Linear(400, 300),
-        #   # ReLU(),
-        #   Linear(100, 1), #single action - single stock trading
-        #   ReLU(),
-        #   Tanh()
-        # )
-
+        
         mu = nn.Sequential(
-          Conv1d(in_channels=1, out_channels=64, kernel_size=self.kernel_size), #output [1,64,13]
-          ReLU(), #output [1,64,13]
-          MaxPool1d(kernel_size=self.kernel_size),
-          Dropout(p=0.5),
-          Conv1d(in_channels=64, out_channels=64, kernel_size=self.kernel_size),
+          Conv1d(in_channels=1, out_channels=16, kernel_size=3),
           ReLU(),
           Dropout(p=0.5),
-          MaxPool1d(kernel_size=self.kernel_size),
-          # Conv1d(in_channels=16, out_channels=16, kernel_size=3),
-          # ReLU(),
-          Flatten(1, -1),#,#, #output of this has size [16,11]
-          Linear(128, 100), #14 days - 208
+          Conv1d(in_channels=16, out_channels=16, kernel_size=3),
           ReLU(),
-          # # Linear(400, 300),
-          # ReLU(),
-          Linear(100, 1), #single action - single stock trading
+          Flatten(1, -1), #output of this has size [16,11]
+          Linear(176, 400),
           ReLU(),
+          Linear(400, 300),
+          ReLU(),
+          Linear(300, 1), #single action - single stock trading
           Tanh()
         )
-
-        # mu = nn.Sequential(*actor_net)
 
         # with th.no_grad():
         #     n_flatten = mu(th.as_tensor(self.observation_space.sample()[None]).float()).shape[1]
         #     print(n_flatten)
-
-        #starts to go wrong once batch size goes to 100
-        #Flatten parameters are the axis. Should be 1 to -1 if 0 is batch size else 0 to -1
 
         return mu
 
