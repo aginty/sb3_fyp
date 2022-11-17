@@ -198,7 +198,7 @@ class CNNActor(BaseActor):
           Dropout(p=0.5),
           Conv1d(in_channels=16, out_channels=16, kernel_size=3),
           ReLU(),
-          Flatten(1, -1), #output of this has size [16,11]
+          Flatten(1, -1),
           Linear(176, 400),
           ReLU(),
           Linear(400, 300),
